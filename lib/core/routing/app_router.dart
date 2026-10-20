@@ -1,7 +1,9 @@
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/cubit/auth_cubit.dart';
@@ -9,6 +11,9 @@ import '../../features/auth/cubit/auth_state.dart';
 import '../../features/auth/pages/login_page.dart';
 import '../../features/auth/pages/unauthorized_page.dart';
 import '../../features/dashboard/pages/dashboard_page.dart';
+import '../../features/orders/cubit/orders_cubit.dart';
+import '../../features/orders/pages/orders_page.dart';
+import '../../services/order_service.dart';
 import '../widgets/admin_shell.dart';
 import '../widgets/section_placeholder.dart';
 
@@ -84,10 +89,9 @@ GoRouter buildRouter(AuthCubit authCubit) {
           _section(AppRoutes.dashboard, const DashboardPage()),
           _section(
             '/orders',
-            const SectionPlaceholder(
-              title: 'Orders',
-              icon: Icons.receipt_long_outlined,
-              description: 'Incoming customer orders will appear here in real time.',
+            BlocProvider(
+              create: (_) => OrdersCubit(OrderService()),
+              child: const OrdersPage(),
             ),
           ),
           _section(
