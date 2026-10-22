@@ -44,7 +44,7 @@ class OrderService {
     }
 
     await reference.update({
-      'status': status,
+      'orderStatus': status,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
