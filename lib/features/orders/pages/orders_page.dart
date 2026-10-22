@@ -1,16 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/orders_cubit.dart';
 
+
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
 
   static const statuses = [
-    'Pending',
+    'Order Placed',
     'Confirmed',
     'Preparing',
+    'Ready for Pickup',
     'Out for Delivery',
     'Delivered',
     'Cancelled',
@@ -40,9 +41,7 @@ class OrdersPage extends StatelessWidget {
           }
 
           if (state.orders.isEmpty) {
-            return const Center(
-              child: Text('No orders found yet.'),
-            );
+            return const Center(child: Text('No orders found yet.'));
           }
 
           return Column(
@@ -60,21 +59,46 @@ class OrdersPage extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                   itemCount: state.orders.length,
-                  separatorBuilder: (_, _) =>
-                  const SizedBox(height: 12),
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
                     final order = state.orders[index];
-                    final orderId = order['orderId'] ?? '';
-                    final customer = order['customerName'] ??
-                        order['name'] ??
-                        order['userId'] ??
-                        'Customer';
-                    final total = order['totalAmount'] ??
-                        order['total'] ??
-                        order['grandTotal'] ??
-                        0;
+
+                    final rawAddress = order['deliveryAddress'];
+                    final addr = rawAddress is Map
+                        ? Map<String, dynamic>.from(rawAddress)
+                        : <String, dynamic>{};
+
+                    final customer =
+                    (addr['name'] ?? order['userEmail'] ?? 'Customer')
+                        .toString();
+                    final phone = (addr['phone'] ?? '').toString();
+                    final fullAddress = [
+                      addr['address'],
+                      addr['city'],
+                      addr['state'],
+                      addr['pincode'],
+                    ]
+                        .where((p) => p != null && p.toString().trim().isNotEmpty)
+                        .join(', ');
+
+                    final rawItems = order['items'];
+                    final itemsText = rawItems is List
+                        ? rawItems
+                        .whereType<Map>()
+                        .map((i) => '${i['productName']} × ${i['quantity']}')
+                        .join(', ')
+                        : '';
+
+                    final orderId = (order['orderId'] ?? '').toString();
+                    final total = order['totalAmount'] ?? 0;
+                    final payment =
+                        '${order['paymentMethod'] ?? ''} (${order['paymentStatus'] ?? ''})';
                     final currentStatus =
-                        order['status']?.toString() ?? 'Pending';
+                    (order['orderStatus'] ?? 'Order Placed').toString();
+
+                    final options = statuses.contains(currentStatus)
+                        ? statuses
+                        : [currentStatus, ...statuses];
 
                     return Card(
                       child: Padding(
@@ -90,10 +114,11 @@ class OrdersPage extends StatelessWidget {
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),
-                            Text('Customer: $customer'),
-                            Text('Total: ₹$total'),
+                            Text('Customer: $customer  •  $phone'),
+                            if (itemsText.isNotEmpty) Text('Items: $itemsText'),
+                            Text('Total: ₹$total  •  $payment'),
                             Text(
-                              'Address: ${order['deliveryAddress'] ?? order['address'] ?? 'Not available'}',
+                              'Address: ${fullAddress.isEmpty ? 'Not available' : fullAddress}',
                             ),
                             const SizedBox(height: 12),
                             Row(
@@ -103,18 +128,16 @@ class OrdersPage extends StatelessWidget {
                                 Expanded(
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    value: statuses.contains(currentStatus)
-                                        ? currentStatus
-                                        : null,
-                                    hint: Text(currentStatus),
-                                    items: statuses.map((status) {
+                                    value: currentStatus,
+                                    items: options.map((status) {
                                       return DropdownMenuItem(
                                         value: status,
                                         child: Text(status),
                                       );
                                     }).toList(),
                                     onChanged: (status) {
-                                      if (status != null) {
+                                      if (status != null &&
+                                          status != currentStatus) {
                                         context
                                             .read<OrdersCubit>()
                                             .updateStatus(order, status);
