@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-/// Thin wrapper around FirebaseAuth. The admin check reads the custom claim
-/// `admin: true`, which can only be set by a trusted server-side process.
 class AuthService {
   AuthService({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
 
@@ -16,7 +14,8 @@ class AuthService {
     );
   }
 
-  /// Forces a token refresh so a newly granted claim is picked up.
+  /// True only if the account carries the `admin` custom claim, which is the
+  /// same condition the Firestore rules check.
   Future<bool> isAdmin(User user) async {
     final result = await user.getIdTokenResult(true);
     return result.claims?['admin'] == true;

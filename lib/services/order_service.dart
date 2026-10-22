@@ -1,23 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/order_model.dart';
-
 class OrderService {
-  OrderService({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  final FirebaseFirestore _firestore;
+  Stream<List<Map<String, dynamic>>> watchOrders() {
+    return _db.collectionGroup('orders').snapshots().map((snapshot) {
+      final orders = snapshot.docs.map((doc) {
+        return {
+          ...doc.data(),
+          'orderId': doc.id,
+          'userId': doc.reference.parent.parent?.id ?? '',
+          '_reference': doc.reference,
+        };
+      }).toList();
 
-  /// Live stream of every customer's orders (users/{uid}/orders/{id}),
-  /// newest first. Sorted on the client so no Firestore index is needed yet.
-  Stream<List<OrderModel>> watchAllOrders() {
-    return _firestore.collectionGroup('orders').snapshots().map((snap) {
-      final orders = snap.docs.map(OrderModel.fromDoc).toList();
-      final epoch = DateTime.fromMillisecondsSinceEpoch(0);
-      orders.sort(
-        (a, b) => (b.createdAt ?? epoch).compareTo(a.createdAt ?? epoch),
-      );
+      orders.sort((a, b) {
+        final aDate = a['createdAt'];
+        final bDate = b['createdAt'];
+
+        final aTime = aDate is Timestamp ? aDate.millisecondsSinceEpoch : 0;
+        final bTime = bDate is Timestamp ? bDate.millisecondsSinceEpoch : 0;
+
+        return bTime.compareTo(aTime);
+      });
+
       return orders;
+    });
+  }
+
+  Future<void> updateOrderStatus(
+    Map<String, dynamic> order,
+    String status,
+  ) async {
+    final reference = order['_reference'];
+
+    if (reference is! DocumentReference<Map<String, dynamic>>) {
+      throw Exception('Invalid order reference.');
+    }
+
+    await reference.update({
+      'orderStatus': status,
+      'updatedAt': FieldValue.serverTimestamp(),
     });
   }
 }
