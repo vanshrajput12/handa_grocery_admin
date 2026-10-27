@@ -2,3 +2,4 @@ build/
 build/
 .dart_tool/
 .idea/workspace.xml
+.flutter-plugins-dependencies
