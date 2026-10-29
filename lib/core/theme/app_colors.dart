@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 import 'package:flutter/material.dart';
 
 /// Brand colors, matched to the Handa Grocery customer app:
