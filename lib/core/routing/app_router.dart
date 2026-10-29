@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/cubit/auth_cubit.dart';
 import '../../features/auth/cubit/auth_state.dart';
+import '../../features/dashboard/pages/product_page.dart';
 import '../../features/orders/cubit/orders_cubit.dart';
 import '../../features/auth/pages/login_page.dart';
 import '../../features/orders/pages/orders_page.dart';
@@ -85,18 +86,14 @@ GoRouter buildRouter(AuthCubit authCubit) {
           _section(AppRoutes.dashboard, const DashboardPage()),
           _section(
             '/orders',
-            BlocProvider(
-              create: (_) => OrdersCubit(OrderService()),
+            BlocProvider<OrdersCubit>(
+              create: (context) => OrdersCubit(OrderService()),
               child: const OrdersPage(),
             ),
           ),
           _section(
             '/products',
-            const SectionPlaceholder(
-              title: 'Products',
-              icon: Icons.shopping_basket_outlined,
-              description: 'Add, edit and manage grocery products here.',
-            ),
+            const ProductsPage(),
           ),
           _section(
             '/categories',
