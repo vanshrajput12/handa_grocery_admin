@@ -146,12 +146,21 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: state.isSubmitting ? null : _submit,
                               child: state.isSubmitting
                                   ? const SizedBox(
+<<<<<<< HEAD
                                       height: 20,
                                       width: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
                                       ),
                                     )
+=======
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+>>>>>>> origin/main
                                   : const Text('Sign in'),
                             ),
                           ],

@@ -19,4 +19,8 @@ const List<NavItem> adminNavItems = [
   NavItem('Delivery Partners', Icons.delivery_dining_outlined, '/delivery'),
   NavItem('Reports', Icons.bar_chart_outlined, '/reports'),
   NavItem('Settings', Icons.settings_outlined, '/settings'),
+<<<<<<< HEAD
 ];
+=======
+];
+>>>>>>> origin/main

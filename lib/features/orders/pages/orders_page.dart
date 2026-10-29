@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/orders_cubit.dart';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
 
@@ -49,8 +53,13 @@ class OrdersPage extends StatelessWidget {
               Text(
                 'Orders',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+<<<<<<< HEAD
                       fontWeight: FontWeight.bold,
                     ),
+=======
+                  fontWeight: FontWeight.bold,
+                ),
+>>>>>>> origin/main
               ),
               const SizedBox(height: 8),
               Text('${state.orders.length} total orders'),
@@ -68,8 +77,13 @@ class OrdersPage extends StatelessWidget {
                         : <String, dynamic>{};
 
                     final customer =
+<<<<<<< HEAD
                         (addr['name'] ?? order['userEmail'] ?? 'Customer')
                             .toString();
+=======
+                    (addr['name'] ?? order['userEmail'] ?? 'Customer')
+                        .toString();
+>>>>>>> origin/main
                     final phone = (addr['phone'] ?? '').toString();
                     final fullAddress = [
                       addr['address'],
@@ -83,9 +97,15 @@ class OrdersPage extends StatelessWidget {
                     final rawItems = order['items'];
                     final itemsText = rawItems is List
                         ? rawItems
+<<<<<<< HEAD
                             .whereType<Map>()
                             .map((i) => '${i['productName']} × ${i['quantity']}')
                             .join(', ')
+=======
+                        .whereType<Map>()
+                        .map((i) => '${i['productName']} × ${i['quantity']}')
+                        .join(', ')
+>>>>>>> origin/main
                         : '';
 
                     final orderId = (order['orderId'] ?? '').toString();
@@ -93,7 +113,11 @@ class OrdersPage extends StatelessWidget {
                     final payment =
                         '${order['paymentMethod'] ?? ''} (${order['paymentStatus'] ?? ''})';
                     final currentStatus =
+<<<<<<< HEAD
                         (order['orderStatus'] ?? 'Order Placed').toString();
+=======
+                    (order['orderStatus'] ?? 'Order Placed').toString();
+>>>>>>> origin/main
 
                     final options = statuses.contains(currentStatus)
                         ? statuses
@@ -159,4 +183,8 @@ class OrdersPage extends StatelessWidget {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

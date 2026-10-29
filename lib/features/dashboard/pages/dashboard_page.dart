@@ -1,15 +1,22 @@
+<<<<<<< HEAD
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../auth/cubit/auth_cubit.dart';
 import '../../auth/cubit/auth_state.dart';
+=======
+import 'package:flutter/material.dart';
+
+import '../../../core/widgets/section_placeholder.dart';
+>>>>>>> origin/main
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final email = context.select((AuthCubit c) => c.state.email);
     return Scaffold(
       appBar: AppBar(
@@ -37,3 +44,13 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
+=======
+    return const SectionPlaceholder(
+      title: 'Dashboard',
+      icon: Icons.dashboard_outlined,
+      description:
+      'Admin access verified. Live order and sales statistics will appear here once orders are connected.',
+    );
+  }
+}
+>>>>>>> origin/main

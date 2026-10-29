@@ -40,7 +40,11 @@ class AdminShell extends StatelessWidget {
   int _selectedIndex(BuildContext context) {
     final loc = GoRouterState.of(context).matchedLocation;
     final i = adminNavItems.indexWhere(
+<<<<<<< HEAD
       (n) => loc == n.path || loc.startsWith('${n.path}/'),
+=======
+          (n) => loc == n.path || loc.startsWith('${n.path}/'),
+>>>>>>> origin/main
     );
     return i < 0 ? 0 : i;
   }
@@ -59,6 +63,7 @@ class AdminShell extends StatelessWidget {
           return Scaffold(
             body: Row(
               children: [
+<<<<<<< HEAD
                 Material(
                   color: Colors.white,
                   child: Container(
@@ -72,6 +77,19 @@ class AdminShell extends StatelessWidget {
                     ),
                     child: _SidebarContent(selectedIndex: selected),
                   ),
+=======
+                Container(
+                  width: _sidebarWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                      right: BorderSide(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                  ),
+                  child: _SidebarContent(selectedIndex: selected),
+>>>>>>> origin/main
                 ),
                 Expanded(
                   child: Column(
@@ -227,4 +245,8 @@ class _SidebarContent extends StatelessWidget {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

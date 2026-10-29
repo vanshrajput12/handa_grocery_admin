@@ -30,7 +30,11 @@ class AuthCubit extends Cubit<AuthState> {
         status: AuthStatus.unauthorized,
         email: user.email,
         errorMessage:
+<<<<<<< HEAD
             'Could not verify admin access. Check your connection and try again.',
+=======
+        'Could not verify admin access. Check your connection and try again.',
+>>>>>>> origin/main
       ));
     }
   }

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderService {
@@ -18,8 +22,17 @@ class OrderService {
         final aDate = a['createdAt'];
         final bDate = b['createdAt'];
 
+<<<<<<< HEAD
         final aTime = aDate is Timestamp ? aDate.millisecondsSinceEpoch : 0;
         final bTime = bDate is Timestamp ? bDate.millisecondsSinceEpoch : 0;
+=======
+        final aTime = aDate is Timestamp
+            ? aDate.millisecondsSinceEpoch
+            : 0;
+        final bTime = bDate is Timestamp
+            ? bDate.millisecondsSinceEpoch
+            : 0;
+>>>>>>> origin/main
 
         return bTime.compareTo(aTime);
       });
@@ -29,9 +42,15 @@ class OrderService {
   }
 
   Future<void> updateOrderStatus(
+<<<<<<< HEAD
     Map<String, dynamic> order,
     String status,
   ) async {
+=======
+      Map<String, dynamic> order,
+      String status,
+      ) async {
+>>>>>>> origin/main
     final reference = order['_reference'];
 
     if (reference is! DocumentReference<Map<String, dynamic>>) {

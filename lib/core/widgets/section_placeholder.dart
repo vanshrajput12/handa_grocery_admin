@@ -45,4 +45,8 @@ class SectionPlaceholder extends StatelessWidget {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

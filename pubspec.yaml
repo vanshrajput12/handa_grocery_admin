@@ -40,7 +40,10 @@ dependencies:
   equatable: ^3.0.0
   go_router: ^18.0.2
   cloud_firestore: ^6.10.0
+<<<<<<< HEAD
   intl: ^0.20.2
+=======
+>>>>>>> origin/main
 
 dev_dependencies:
   flutter_test:
